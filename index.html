@@ -1,9 +1,170 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Assignment 05</title>
+    <title>Welcome to Nogor-Poribohon</title>
+
+    <!-- Fontawesome CDN -->
+    <script
+      src="https://kit.fontawesome.com/4e44db633f.js"
+      crossorigin="anonymous"
+    ></script>
+    <!-- CDN link of Daisy & Tailwind css -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@4.6.0/dist/full.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <!-- GoogleFont : Raleway/Inter-->
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <!-- favicon item -->
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
   </head>
-  <body></body>
+  <body>
+    <div class="body w-10/12 m-auto">
+    <div class="header ">
+      <nav class="navbar bg-btase-100">
+        <div class="navbar-start">
+          <div class="dropdown">
+            <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h8m-8 6h16"
+                />
+              </svg>
+            </div>
+            <ul
+              tabindex="0"
+              class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+            >
+              <li><a>Item 1</a></li>
+              <li>
+                <a>Parent</a>
+                <ul class="p-2">
+                  <li><a>Submenu 1</a></li>
+                  <li><a>Submenu 2</a></li>
+                </ul>
+              </li>
+              <li><a>Item 3</a></li>
+            </ul>
+          </div>
+          <a class="btn btn-ghost text-4xl font-extrabold font-[raleway] px-0">Easy-Ticket</a>
+        </div>
+        <div class="navbar-center hidden lg:flex">
+          <ul class="menu menu-horizontal px-1 text-[#030712B2] text-lg font-medium font-[raleway]">
+            <li><a>Home</a></li>
+            <li><a>About </a></li>
+            <li><a>Destination</a></li>
+            <li><a>Search</a></li>
+          </ul>
+        </div>
+        <div class="navbar-end">
+          <a class="my-10 font-[raleway] text-xl font-bold text-[#1DD100] bg-[#1dd1001a] bg-white border-[#1DD100] btn btn-primary">Bus <img src="images/bus-icon.png" alt=""></a>
+        </div>
+      </nav>
+    </div>
+    <div class="banner">
+      <div
+        class="hero rounded-3xl min-h-screen "
+        style="background-image: url(images/banner.png)"
+      >
+        <div class="hero-content text-center">
+          <div class="">
+            <h1 class="mb-5 text-6xl font-[raleway] font-extrabold leading-[86px] text-white">
+              End-to-End Travel with <br />
+              <span class="text-[#1DD100] font-[raleway] font-extrabold  text-6xl leading-[86px]">Easy-Ticket</span>
+            </h1>
+            <p class="mb-5 text-white text-lg font-[inter] font-normal leading-8 w-[59%] m-auto">
+              Yes, you can run unit tests and view the results directly within
+              the app. The integrated testing features allow for a streamlined .
+            </p>
+            <div class="btn btn-primary bg-[#1DD100] text-[#030712] text-xl font-bold font-[raleway] rounded-2xl p-5 pb-10 border-none  ">Buy Tickets</d>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <main>
+      <div class="bestoffer ">
+        <h1 class="text-[ #030712] font-bold text-4xl text-center my-10 font-[raleway]">Best Offers for You</h1>
+          <div class="cupons flex justify-around ">
+            <div class="cuponcard1 bg-[#FFBF0F] rounded-2xl relative w-[49%] ">
+            <div class="cupon  flex justify-between p-10 items-center ">
+              <div class="cupleft font-[Inter]">
+            <h3 class="text-[#030712] text-4xl font-black leading-9  ">15% Off</h3>
+            <p class="text-[#030712] text-xl font-semibold  leading-9">On your Next Purchase</p>
+            <p class="text-[#03071266] text-lg font-medium leading-9">use by January 2024</p>
+            </div>
+          <div class="cupright flex flex-col text-center font-[raleway]">
+            <div class="text-[#030712] text-3xl font-bold">NEW15</div>
+            <div class="text-[#03071266] font-medium text-xl  cursor-pointer">CUPON CODE</div>
+          </div>
+          <div class="border-[1px] border-dashed border-white absolute left-[63.5%] h-full "></div>
+            </div>
+            <div class="circle1 bg-white h-10 w-10 rounded-full absolute left-[60%] transform translate-y--1/2 top-[-10%]"></div>
+            <div class="circle2  bg-white h-10 w-10 rounded-full absolute left-[60%]  translate-y--1/2 bottom-[-10%]"></div>
+          </div>
+          <div class="cuponcard2 bg-[#F78C9C] rounded-2xl relative w-[49%]">
+            <div class="cupon  flex justify-between p-10 items-center ">
+              <div class="cupleft font-[Inter]">
+            <h3 class="text-[#030712] text-4xl font-black leading-9  ">20% Off</h3>
+            <h6 class="text-[#030712] text-xl font-semibold  leading-9">On your Next Purchase</h6>
+            <p class="text-[#03071266] text-lg font-medium leading-9">use by January 2024</>
+            </div>
+          <div class="cupright flex flex-col text-center font-[raleway]">
+            <div class="text-[#030712] text-3xl font-bold">Couple 20</div>
+            <div class="text-[#03071266] font-medium text-xl  cursor-pointer">CUPON CODE</div>
+          </div>
+          <div class="border-[1px] border-dashed border-white absolute left-[63.5%] h-full "></div>
+            </div>
+            <div class="circle1 bg-white h-10 w-10 rounded-full absolute left-[60%] transform translate-y--1/2 top-[-10%]"></div>
+            <div class="circle2  bg-white h-10 w-10 rounded-full absolute left-[60%]  translate-y--1/2 bottom-[-10%]"></div>
+          </div>
+          </div>
+          <div class="flex justify-center"><button class="my-10 font-[raleway] text-xl font-bold text-[#1DD100] bg-white border-[#1DD100] btn btn-primary">See All Offers</button> </div>
+      </div>
+    </main>
+</div>
+    <footer class="bg-[#030712]">
+      <div class="w-10/12 m-auto">
+      <div class="uppersec flex flex-row justify-between pt-28">
+        <div class="upperleft">
+          <h1 class="text-white text-3xl font-[raleway] font-extrabold">Easy-Ticket</h1>
+          <p class="text-[#ffffffcc] text-lg font-[inter] font-normal leading-8">
+            Easy-Ticket is a digital platform to make your <br>
+            daily commuting
+            better.
+          </p>
+        </div>
+        <div class="upperright">
+          <p class="text-white text-lg font-[raleway] font-semibold text-center pb-2">Download Our App</p>
+            <img src="images/playstore.png" alt="">
+
+          </div>
+        </div>
+      <div class="line border-b-[1px] border-dashed border-[#ffffff4d] my-10 "></div>
+      <div class="lowersec flex flex-row justify-between pb-28">
+        <p class="text-[#ffffffb3] text-base font-[Inter] font-normal ">@all rights reserved, P-Ticket services limited.2024</p>
+        <ul class="flex flex-row gap-5 text-[#ffffffb3] text-base font-[Inter] font-medium ">
+          <li><a href="">Terms & Condition</a></li>
+          <li><a href="">Return & refund policy</a></li>
+          <li><a href="">Privace Policy</a></li>
+        </ul>
+      </div>
+      </div>
+    </footer>
+  </body>
 </html>
