@@ -287,6 +287,10 @@ checkoutBtn.addEventListener("click", function () {
   grandTotalDisplay.textContent = "0";
   totalPriceDisplay.textContent = "0";
 
+  // Reset Total seat count
+  const totalSeatCOunt = document.getElementById("totalSeatCount");
+  totalSeatCOunt.textContent = "0";
+
   // Reset the displayed discount
   discountDisplay.classList.add("hidden");
   dividerDisplay.classList.add("hidden");
