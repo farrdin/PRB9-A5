@@ -1,234 +1,301 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const seatColumnsContainer = document.getElementById("seat-columns");
-  const selectedSeatDisplay = document.getElementById("selected-seat");
-  const checkoutBtn = document.getElementById("checkout-btn");
+// scrolling  Buy ticket to select ticket section start
+const easyTicketSection = document.getElementById("easy-ticket-section");
+const getTicketBtn = document.getElementById("get-ticket-btn");
+function scrollToEasyTicketSection() {
+  easyTicketSection.scrollIntoView({ behavior: "smooth" });
+}
+getTicketBtn.addEventListener("click", scrollToEasyTicketSection);
+// scrolling  Buy ticket to select ticket section start
+
+// seat select, seat Info add , remaining seat , total seat, and maximum seat select, Start
+
+const seats = document.getElementsByClassName("column-label");
+for (const seatNum of seats) {
+  seatNum.addEventListener("click", function (event) {
+    const seatName = event.target.innerText;
+    const seatClass = "Economy";
+    const seatPrice = 550;
+    const displaySeatInfo = document.getElementById("selected-seat-info");
+
+    // Check if the seat is already selected
+    if (event.target.classList.contains("selected-seat")) {
+      // Remove the seat from selected seats
+      event.target.classList.remove("selected-seat");
+
+      // Remove the corresponding seat info
+      const seatInfos = displaySeatInfo.querySelectorAll(".selected-seat-info");
+      for (const seatInfo of seatInfos) {
+        if (seatInfo.firstChild.innerText === seatName) {
+          displaySeatInfo.removeChild(seatInfo);
+          break;
+        }
+      }
+
+      // Update remaining seats count
+      document.getElementById("remaining-seats").innerText =
+        convertValuetoNum("remaining-seats") + 1;
+
+      // Update total seat count
+      document.getElementById("totalSeatCount").innerText =
+        convertValuetoNum("totalSeatCount") - 1;
+
+      // Recalculate total cost
+      calculateTotalCost(-seatPrice);
+
+      // Recalculate grand total
+      calculateGrandTotal();
+
+      // Enable or disable coupon input and apply coupon button
+      updateCouponControls();
+
+      // Recalculate Discount price
+      calculateDiscount();
+
+      // Next Button enable disable
+      nextButtonCondition();
+    } else {
+      // Check if maximum seat count reached
+      const selectedSeatsCount =
+        document.querySelectorAll(".selected-seat").length;
+      if (selectedSeatsCount >= 4) {
+        alert("You can only select up to 4 seats.");
+        return;
+      }
+
+      // Create seat info element
+      const div = document.createElement("div");
+      div.classList.add("selected-seat-info");
+      const p1 = document.createElement("p");
+      const p2 = document.createElement("p");
+      const p3 = document.createElement("p");
+      p1.innerText = seatName;
+      p2.innerText = seatClass;
+      p3.innerText = seatPrice;
+      div.appendChild(p1);
+      div.appendChild(p2);
+      div.appendChild(p3);
+
+      // Mark the seat as selected
+      event.target.classList.add("selected-seat");
+
+      // Add seat info to the display
+      displaySeatInfo.appendChild(div);
+
+      // Update remaining seats count
+      document.getElementById("remaining-seats").innerText =
+        convertValuetoNum("remaining-seats") - 1;
+
+      // Update total seat count
+      document.getElementById("totalSeatCount").innerText =
+        convertValuetoNum("totalSeatCount") + 1;
+
+      // Recalculate total cost
+      calculateTotalCost(seatPrice);
+
+      // Recalculate grand total
+      calculateGrandTotal();
+
+      // Enable or disable coupon input and apply coupon button
+      updateCouponControls();
+
+      // Recalculate Discount price
+      calculateDiscount();
+
+      // Next Button enable disable
+      nextButtonCondition();
+    }
+  });
+}
+
+// Enable or Disabled Input and appyCoupon Button Start
+function updateCouponControls() {
+  const selectedSeatsCount = document.querySelectorAll(".selected-seat").length;
   const couponInput = document.getElementById("coupon");
   const applyCouponBtn = document.getElementById("apply-coupon");
-  const selectedSeatInfoContainer =
-    document.getElementById("selected-seat-info");
-  const totalSeatNumber = document.getElementById("totalseatnumber");
-  const totalPriceDisplay = document.getElementById("total-price");
-  const discountPriceDisplay = document.getElementById("discount-price");
-  const discountCountDisply = document.getElementById("discount-count");
-  const grandTotalDisplay = document.getElementById("grand-total-price");
-  const couponError = document.getElementById("coupon-error");
-  const easyTicketSection = document.getElementById("easy-ticket-section");
-  const getTicketBtn = document.getElementById("get-ticket-btn");
-  const openModal = document.getElementById("checkout-btn");
-  const modal = document.getElementById("modal");
-  const closeModal = document.getElementById("close-modal");
-  const contactNumber = document.getElementById("phone-number");
-  const userName = document.getElementById("user-name");
-  const emailId = document.getElementById("email-id");
-  const dividerDisplay = document.getElementById("divider");
+  const couponApplied = false; // Assuming it's defined elsewhere
 
-  let selectedSeats = [];
-  let couponApplied = false;
-
-  // update UI
-  function updateUI() {
-    const seatCount = selectedSeats.length;
-    const contactNumberValue = contactNumber.value.trim();
-    const userNameValue = userName.value.trim();
-    const emailIdValue = emailId.value.trim();
-    selectedSeatDisplay.textContent = seatCount;
-    checkoutBtn.disabled = seatCount === 0 || contactNumberValue === "";
-
-    // seat info
-    selectedSeatInfoContainer.innerHTML = "";
-    selectedSeats.forEach((seatNumber) => {
-      const seatInfo = document.createElement("div");
-      seatInfo.classList.add("selected-seat-info-item");
-      seatInfo.textContent = seatNumber;
-      selectedSeatInfoContainer.appendChild(seatInfo);
-    });
-
-    // seat number
-    totalSeatNumber.textContent = `Seat: (${seatCount})`;
-
-    // Enable or disable coupon input and apply coupon button
-    if (seatCount === 4 && !couponApplied) {
-      couponInput.disabled = false;
-      applyCouponBtn.disabled = false;
-    } else {
-      couponInput.disabled = true;
-      applyCouponBtn.disabled = true;
-    }
-
-    //  total price
-    const totalPrice = calculateTotalPrice(seatCount);
-    totalPriceDisplay.textContent = totalPrice;
-
-    // grand total
-    const grandTotal = calculateGrandTotal(totalPrice);
-    grandTotalDisplay.textContent = grandTotal;
+  if (selectedSeatsCount === 4 && !couponApplied) {
+    couponInput.disabled = false;
+    applyCouponBtn.disabled = false;
+  } else {
+    couponInput.disabled = true;
+    applyCouponBtn.disabled = true;
   }
-
-  // seat selection
-  function selectSeat(seat) {
-    const seatNumber = seat.dataset.seat;
-    const index = selectedSeats.indexOf(seatNumber);
-    if (index === -1) {
-      if (selectedSeats.length < 4) {
-        selectedSeats.push(seatNumber);
-        seat.classList.add("selected");
-      } else {
-        alert("You can only select up to 4 seats.");
-      }
-    } else {
-      selectedSeats.splice(index, 1);
-      seat.classList.remove("selected");
-    }
-    updateUI();
-    //  remaining seats count
-    const remainingSeats = 40 - selectedSeats.length;
-    document.getElementById("remaining-seats").textContent = remainingSeats;
+  if (selectedSeatsCount < 4) {
+    discountDisplay.classList.add("hidden");
+    dividerDisplay.classList.add("hidden");
   }
+}
+// Enable or Disabled Input and appyCoupon Button Start
 
-  // Create seat columns
-  for (let i = 0; i < 4; i++) {
-    const seatColumn = document.createElement("div");
-    seatColumn.classList.add("seat-column", "mr-4");
-    seatColumnsContainer.appendChild(seatColumn);
+// Cupon Details start
+const applyCouponBtn = document.getElementById("apply-coupon");
+const couponInput = document.getElementById("coupon");
+const couponError = document.getElementById("coupon-error");
+const discountDisplay = document.getElementById("discount-count");
+const dividerDisplay = document.getElementById("divider");
 
-    // Create seats for each column
-    for (let j = 0; j < 10; j++) {
-      const seat = document.createElement("div");
-      seat.classList.add(
-        "seat",
-        "bg-gray-200",
-        "flex",
-        "justify-center",
-        "items-center",
-        "text-center"
-      );
-      const seatNumber = String.fromCharCode(65 + j); // ASCII code for 'A' is 65
-      seat.dataset.seat = `${seatNumber}${i + 1}`;
-      seat.textContent = `${seatNumber}${i + 1}`;
-      seat.addEventListener("click", function () {
-        selectSeat(seat);
-        updatePaymentDetails(seat);
-      });
-      seatColumn.appendChild(seat);
-    }
+applyCouponBtn.addEventListener("click", function () {
+  const couponCode = couponInput.value.trim();
+  if (couponCode === "") {
+    couponError.textContent = "Please enter a coupon code.";
+    return;
   }
-
-  // Apply coupon
-  applyCouponBtn.addEventListener("click", function () {
-    const couponCode = couponInput.value.trim();
-    if (couponCode === "") {
-      couponError.textContent = "Please enter a coupon code.";
-      return;
-    }
-    // Apply coupon logic here
-    if (!isValidCoupon(couponCode)) {
-      couponError.textContent = "Invalid coupon code. Please try again.";
-      return;
-    }
-    applyCoupon(couponCode);
+  // Apply coupon logic here
+  if (couponCode !== "NEW15" && couponCode !== "Couple 20") {
+    couponError.textContent = "Invalid coupon code. Please try again.";
+    return;
+  } else {
     couponApplied = true;
     couponInput.disabled = true;
     applyCouponBtn.disabled = true;
     couponInput.style.display = "none";
     applyCouponBtn.style.display = "none";
-    // Clear error message
     couponError.textContent = "";
-  });
-
-  function updatePaymentDetails(seat) {
-    document.getElementById("selected-seat").innerText = seat.dataset.seat;
-    document.getElementById("price-per-seat").innerText = "550";
-  }
-
-  // per seat price
-  function calculateTotalPrice(seatCount) {
-    return seatCount * 550; // Assuming price is always 550
-  }
-
-  // grand total after discount
-  function calculateGrandTotal(totalPrice) {
-    if (couponApplied) {
-      // Apply coupon discount here
-      const couponDiscount = calculateCouponDiscount(totalPrice);
-      return totalPrice - couponDiscount;
-    }
-    return totalPrice;
-  }
-
-  // apply coupon function
-  function calculateCouponDiscount(totalPrice) {
-    const couponCode = couponInput.value.trim();
-    let discountAmount = 0; // Initialize discount amount
-    if (couponCode === "NEW15") {
-      discountAmount = totalPrice * 0.15; // 15% discount
-    } else if (couponCode === "Couple 20") {
-      discountAmount = totalPrice * 0.2; // 20% discount
-    }
-    return discountAmount;
-  }
-
-  //  coupon code validate
-  function isValidCoupon(couponCode) {
-    // Add your coupon validation logic here
-    return couponCode === "NEW15" || couponCode === "Couple 20";
-  }
-
-  function applyCoupon(couponCode) {
-    let totalPrice = parseInt(totalPriceDisplay.textContent);
-    const couponDiscount = calculateCouponDiscount(totalPrice);
-    const grandTotal = totalPrice - couponDiscount;
-    grandTotalDisplay.textContent = grandTotal;
-    discountPriceDisplay.textContent = couponDiscount;
-    discountCountDisply.classList.remove("hidden");
+    discountDisplay.classList.remove("hidden");
     dividerDisplay.classList.remove("hidden");
+    // Recalculate Discount price
+    calculateDiscount();
   }
-
-  // scrolling  Buy ticket to select ticket section
-  function scrollToEasyTicketSection() {
-    easyTicketSection.scrollIntoView({ behavior: "smooth" });
-  }
-  getTicketBtn.addEventListener("click", scrollToEasyTicketSection);
-
-  // CLICK ON NEXT BUTTON TO OPEN POPUP
-  openModal.addEventListener("click", () => {
-    modal.classList.remove("hidden");
-  });
-  // CLICK ON CONTINUE BUTTON TO CLOSE POPUP
-  closeModal.addEventListener("click", () => {
-    modal.classList.add("hidden");
-  });
-
-  contactNumber.addEventListener("input", updateUI);
-
-  // effects of after clicking on NEXT button start
-  checkoutBtn.addEventListener("click", function () {
-    // Unselect selected seats and update UI
-    selectedSeats.forEach((seatNumber) => {
-      const seat = document.querySelector(`[data-seat="${seatNumber}"]`);
-      seat.classList.remove("selected");
-    });
-    selectedSeats = []; // Clear selected seats array
-    updateUI(); // Update UI after unselecting seats
-
-    // Reset contact number input field
-    contactNumber.value = "";
-    userName.value = "";
-    emailId.value = "";
-
-    // Reset coupon input field and make it visible
-    couponInput.value = "";
-    couponInput.disabled = false;
-    couponInput.style.display = "inline";
-    applyCouponBtn.disabled = false;
-    applyCouponBtn.style.display = "inline";
-
-    // Reset grand total and total price
-    grandTotalDisplay.textContent = "0";
-    totalPriceDisplay.textContent = "0";
-    // Reset the displayed discount
-    discountCountDisply.classList.add("hidden");
-    dividerDisplay.classList.add("hidden"); // Hide the discount price display
-  });
-
-  // effects of after clicking on NEXT button start
 });
+// Cupon Details end
+
+// seat select, seat Info add , remaining seat  ,total seat, and maximum seat select, END
+
+// Claculate Total Cost start
+function calculateTotalCost(seatPrice) {
+  const totalCost = convertValuetoNum("total-price");
+  const convertedSeatPrice = parseInt(seatPrice);
+
+  document.getElementById("total-price").innerText =
+    totalCost + convertedSeatPrice;
+}
+// Claculate Total Cost end
+
+// Claculate GrandTotal Cost start
+
+function calculateGrandTotal(check) {
+  const totalCost = convertValuetoNum("total-price");
+  if (check === undefined) {
+    document.getElementById("grand-total-price").innerText = totalCost;
+  } else {
+    const couponCode = document.getElementById("coupon").value.trim();
+
+    if (couponCode === "NEW15") {
+      const discountPrice = totalCost * 0.15;
+      document.getElementById("grand-total-price").innerText =
+        totalCost - discountPrice;
+    } else if (couponCode === "Couple 20") {
+      const discountPrice = totalCost * 0.2;
+      document.getElementById("grand-total-price").innerText =
+        totalCost - discountPrice;
+    }
+  }
+}
+// Claculate GrandTotal Cost end
+
+// Calculate Discount Price start
+
+function calculateDiscount(show) {
+  const totalCost = convertValuetoNum("total-price");
+  const couponCode = document.getElementById("coupon").value.trim();
+
+  if (couponCode === "NEW15") {
+    const discountPrice = totalCost * 0.15;
+    console.log("Discount price", discountPrice);
+    document.getElementById("discount-price").innerText = discountPrice;
+  }
+  if (couponCode === "Couple 20") {
+    const discountPrice = totalCost * 0.2;
+    document.getElementById("discount-price").innerText = discountPrice;
+  }
+}
+// Calculate Discount Price END
+
+// Function condition to enable next button start
+
+const phoneNumberInput = document.getElementById("phone-number");
+phoneNumberInput.addEventListener("input", nextButtonCondition);
+function nextButtonCondition() {
+  console.log("Inside nextButtonCondition");
+  const checkoutBtn = document.getElementById("checkout-btn");
+  const selectedSeatsCount = document.querySelectorAll(".selected-seat").length;
+  const contactNumber = document.getElementById("phone-number").value.trim();
+  console.log("Selected seats count:", selectedSeatsCount);
+  console.log("Contact number:", contactNumber);
+
+  if (selectedSeatsCount > 0 && contactNumber !== "") {
+    checkoutBtn.disabled = false; // Enable checkout button
+  } else {
+    checkoutBtn.disabled = true; // Disable checkout button
+  }
+}
+// Function condition to enable next button END
+
+// CLICK ON NEXT BUTTON TO OPEN POPUP start
+const openModal = document.getElementById("checkout-btn");
+const modal = document.getElementById("modal");
+const closeModal = document.getElementById("close-modal");
+openModal.addEventListener("click", () => {
+  modal.classList.remove("hidden");
+});
+closeModal.addEventListener("click", () => {
+  modal.classList.add("hidden");
+});
+// CLICK ON CONTINUE BUTTON TO CLOSE POPUP End
+
+// Function for after click on next button
+const checkoutBtn = document.getElementById("checkout-btn");
+checkoutBtn.addEventListener("click", function () {
+  const selectedSeats = document.querySelectorAll(".selected-seat");
+  const contactNumberInput = document.getElementById("phone-number");
+  const userNameInput = document.getElementById("user-name");
+  const emailIdInput = document.getElementById("email-id");
+  const couponInput = document.getElementById("coupon");
+  const applyCouponBtn = document.getElementById("apply-coupon");
+  const grandTotalDisplay = document.getElementById("grand-total-price");
+  const totalPriceDisplay = document.getElementById("total-price");
+  const discountDisplay = document.getElementById("discount-count");
+  const dividerDisplay = document.getElementById("divider");
+
+  // Hide selected seat info
+  const selectedSeatInfo = document.querySelectorAll(".selected-seat-info");
+  selectedSeatInfo.forEach((info) => {
+    info.classList.add("hidden");
+  });
+
+  // Unselect selected seats and update UI
+  selectedSeats.forEach((seat) => {
+    seat.classList.remove("selected-seat");
+  });
+
+  // Reset contact number input field
+  contactNumberInput.value = "";
+
+  // Reset other input fields if needed
+  userNameInput.value = "";
+  emailIdInput.value = "";
+
+  // Reset coupon input field and make it visible
+  couponInput.value = "";
+  couponInput.disabled = false;
+  couponInput.style.display = "inline";
+  applyCouponBtn.disabled = false;
+  applyCouponBtn.style.display = "inline";
+
+  // Reset grand total and total price
+  grandTotalDisplay.textContent = "0";
+  totalPriceDisplay.textContent = "0";
+
+  // Reset the displayed discount
+  discountDisplay.classList.add("hidden");
+  dividerDisplay.classList.add("hidden");
+});
+// Function for after click on next End
+
+// Function for conver any value to number ----------
+function convertValuetoNum(id) {
+  const x = document.getElementById(id).innerText;
+  const y = parseInt(x);
+  return y;
+}

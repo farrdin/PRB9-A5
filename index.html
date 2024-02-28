@@ -291,19 +291,66 @@
               </div>
               <div class="flex justify-center items-center"><!-- A-J catagory -->
                 <div class="flex flex-col">
-                  <div class="column-label">A</div>
-                  <div class="column-label">B</div>
-                  <div class="column-label">C</div>
-                  <div class="column-label">D</div>
-                  <div class="column-label">E</div>
-                  <div class="column-label">F</div>
-                  <div class="column-label">G</div>
-                  <div class="column-label">H</div>
-                  <div class="column-label">I</div>
-                  <div class="column-label">J</div>
+                  <div class="column-label-a-j">A</div>
+                  <div class="column-label-a-j">B</div>
+                  <div class="column-label-a-j">C</div>
+                  <div class="column-label-a-j">D</div>
+                  <div class="column-label-a-j">E</div>
+                  <div class="column-label-a-j">F</div>
+                  <div class="column-label-a-j">G</div>
+                  <div class="column-label-a-j">H</div>
+                  <div class="column-label-a-j">I</div>
+                  <div class="column-label-a-j">J</div>
                 </div>
-                <div id="seat-columns" class="flex">
+                <div class="flex flex-col">
+                  <div class="column-label">A1</div>
+                  <div class="column-label">B1</div>
+                  <div class="column-label">C1</div>
+                  <div class="column-label">D1</div>
+                  <div class="column-label">E1</div>
+                  <div class="column-label">F1</div>
+                  <div class="column-label">G1</div>
+                  <div class="column-label">H1</div>
+                  <div class="column-label">I1</div>
+                  <div class="column-label">J1</div>
                 </div>
+                <div class="flex flex-col">
+                  <div class="column-label">A2</div>
+                  <div class="column-label">B2</div>
+                  <div class="column-label">C2</div>
+                  <div class="column-label">D2</div>
+                  <div class="column-label">E2</div>
+                  <div class="column-label">F2</div>
+                  <div class="column-label">G2</div>
+                  <div class="column-label">H2</div>
+                  <div class="column-label">I2</div>
+                  <div class="column-label">J2</div>
+                </div>
+                <div class="flex flex-col">
+                  <div class="column-label">A3</div>
+                  <div class="column-label">B3</div>
+                  <div class="column-label">C3</div>
+                  <div class="column-label">D3</div>
+                  <div class="column-label">E3</div>
+                  <div class="column-label">F3</div>
+                  <div class="column-label">G3</div>
+                  <div class="column-label">H3</div>
+                  <div class="column-label">I3</div>
+                  <div class="column-label">J3</div>
+                </div>
+                <div class="flex flex-col">
+                  <div class="column-label">A4</div>
+                  <div class="column-label">B4</div>
+                  <div class="column-label">C4</div>
+                  <div class="column-label">D4</div>
+                  <div class="column-label">E4</div>
+                  <div class="column-label">F4</div>
+                  <div class="column-label">G4</div>
+                  <div class="column-label">H4</div>
+                  <div class="column-label">I4</div>
+                  <div class="column-label">J4</div>
+                </div>
+
               </div>
           </div>
            <!-- SELECT YOUR SEAT SECTIONS END -->
@@ -322,22 +369,19 @@
                 <!-- Seat/class/price section start -->
               <div class="seat-class-price flex justify-around">
                 <div class="seat-count">
-                  <div id="totalseatnumber" class="section text-[#030712] text-base font-[inter] font-medium">Seat:</div>
-                  <div id="selected-seat" class="section section text-[#03071299] text-base font-[inter] font-medium">0</div>
+                  <div id="totalseatnumber" class="section text-[#030712] text-base font-[inter] font-medium">Seat: <span class=" bg-[#1DD100] text-white text-xs font-[inter] font-bold px-[12px] py-[2px] rounded-lg " id="totalSeatCount">0</span> </div>
                 </div>
                 <div class="class-count">
                   <div class="section text-[#030712] text-base font-[inter] font-medium">Class:</div>
-                  <div class="section section text-[#03071299] text-base font-[inter] font-medium">Economy</div>
                 </div>
                 <div class="price-count">
                   <div class="section text-[#030712] text-base font-[inter] font-medium">Price:</div>
-                  <div id="price-per-seat" class="section section text-[#03071299] text-base font-[inter] font-medium">550</div>
                 </div>
               </div>
               <!-- Seat/class/price section end -->
 
               <!-- all the selected seat detials show here -->
-              <div class="selected-seat-info" id="selected-seat-info">
+              <div id="selected-seat-info">
               </div>
                <!-- all the selected seat detials show here -->
 
@@ -354,10 +398,10 @@
 
               <!-- ENter coupon start-->
               <div class="enter-coupon mt-5">
-                  <input type="text" id="coupon" placeholder="Enter coupon code"
-                    class="bg-[base] border text-[#03071266] font-[inter] font-normal text-sm rounded-lg p-4 w-[75%]"/>
-                  <button
-                    id="apply-coupon"
+                  <input type="text"  id="coupon" placeholder="Enter coupon code"
+                    class="bg-[base] border text-[#03071266] font-[inter] font-normal text-sm rounded-lg p-4 w-[75%]" disabled/>
+                  <button onclick="calculateGrandTotal('coupon')"
+                    id="apply-coupon" disabled
                     class="bg-[#1DD100] text-white font-bold py-2 px-4 rounded-xl btn hover:bg-gray-500">Apply</button>
                 <div id="coupon-error" class="text-red-500 mt-2"></div>
               </div>
@@ -432,7 +476,7 @@
 
       <!-- NextClick Popup start -->
       <div id="modal" class="hidden fixed top-[20%] left-[14%]">
-        <div class="next-popup  bg-[#F7F8F8] mx-auto p-10 rounded-3xl">
+        <div class="next-popup  bg-gray-200 mx-auto p-10 rounded-3xl">
               <img src="images/success.png" class="mx-auto mb-5">
               <h3 class="text-[#27AE60] text-2xl font-bold font-[roboto] text-center mb-5">SUCCESS</h3>
               <p class="text-[#4A4A4A] text-xl font-medium font-[roboto] text-center mb-5">Thank you for Booking Our Bus Seats.We are working hard to find the best service and deals for you.</p>

@@ -1,31 +1,27 @@
 /* styles for seat start*/
-.seat {
-  display: flex;
-  justify-items: center;
-  align-items: center;
+.column-label {
   width: 100px;
   height: 60px;
-  display: inline-block;
-  border: 1px solid black;
   margin: 5px;
   cursor: pointer;
   border-radius: 10%;
   background-color: #f7f8f8;
-  border: none;
   color: #03071280;
   font-family: inter;
   font-size: 18px;
   font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 } /* styles for seat start*/
 
 /* styles for A-j column start*/
-.column-label {
+.column-label-a-j {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100px;
   height: 60px;
-  border: 1px solid black;
   margin: 5px 0;
   border-radius: 10%;
   border: none;
@@ -37,29 +33,20 @@
 /* styles for A-j column End*/
 
 /* styles for After click on seat start*/
-.seat.selected {
+.selected-seat {
   background-color: #1dd100;
   color: white;
 }
 /* styles for After click on seat END*/
 
-/* styles for seat column start*/
-.seat-column {
-  display: flex;
-  flex-direction: column;
-}
-/* styles for seat column End*/
-
 /* payment section seat info style start */
 .selected-seat-info {
   margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+  color: #03071299;
+  font-size: 16px;
+  font-family: inter;
+  font-weight: 500;
 }
 /* payment section seat info style End*/
-
-/* payment section seat info item style */
-.selected-seat-info-item {
-  margin-bottom: 10px;
-  padding: 5px 10px;
-  background-color: #f3f3f3;
-}
-/* payment section seat info item style */
